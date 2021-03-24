@@ -15,6 +15,14 @@ class Grafo:
             for j in self.listaAdj[i]:
                 print(f'{j} -', end='  ')
             print('')
+        print('')
+
+    def exibeInformacoes(self):
+        print(f'Grafo de Ordem: {self.ordemGrafo()}')
+        print(f'Grafo de tamanho: {self.tamanhoGrafo()}')
+        v = int(input("\nDigite um Vértice: "))
+        print(f'Vizinhos do vértice: {self.retornaVizinhos(v)}')
+        print(f'Grau do vértice: {self.grauVertice(v)}')
 
     def ordemGrafo(self):
         return self.vertices
@@ -38,7 +46,20 @@ class Grafo:
     def grauVertice(self, u): #Grau = n de vertices ligados a ele/ n de vizinhos
         return len(self.retornaVizinhos(u))
 
-g = Grafo(4)
+    @staticmethod
+    def leArquivo(nomeArquivo): #Função para ler e criar grafo a partir de arquivo, retorna o grafo criado
+        with open(nomeArquivo, 'r') as arq: #Para chamar utilize nomeGrafo = Grafo.leArquivo(nomeArquivo)
+            vertices = arq.readline() #lê a primeira linha
+            vertices = int(vertices)
+            g = Grafo(vertices) #cria o grafo G com a quantidade de vértices
+            for line in arq:
+                u, v, peso = line.rstrip('\n').split(' ')
+                g.adicionaAresta(int(u), int(v), int(peso))
+        return g
+
+
+'''#g = Grafo(None)
+g = Grafo.leArquivo("grafo_teste");
 g.adicionaAresta(1, 2, 5)
 g.adicionaAresta(1, 3, 7)
 g.adicionaAresta(1, 4, 6)
@@ -49,7 +70,7 @@ print(f'Grafo de Ordem: {g.ordemGrafo()}')
 print(f'Grafo de tamanho: {g.tamanhoGrafo()}')
 print(f'Vizinhos do vértice: {g.retornaVizinhos(1)}')
 print(f'Grau do vértice: {g.grauVertice(1)}')
-
+'''
 '''
 - Retornar a ordem do grafo - ok
 - Retornar o tamanho do grafo - ok
