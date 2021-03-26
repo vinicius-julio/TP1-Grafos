@@ -18,12 +18,14 @@ class Grafo:
         print('')
 
     def exibeInformacoes(self):
+        v_b=1
         print(f'Grafo de Ordem: {self.ordemGrafo()}')
         print(f'Grafo de tamanho: {self.tamanhoGrafo()}')
         v = int(input("\nDigite um Vértice: "))
         print(f'Vizinhos do vértice: {self.retornaVizinhos(v)}')
         print(f'Grau do vértice: {self.grauVertice(v)}')
-
+        print(f'Lista da busca: {self.dfs(v_b)}')
+        
     def ordemGrafo(self):
         return self.vertices
 
@@ -56,7 +58,24 @@ class Grafo:
                 u, v, peso = line.rstrip('\n').split(' ')
                 g.adicionaAresta(int(u), int(v), int(peso))
         return g
+    def dfs(self, vertice):
+        visitados = set()
+        teste=[]
+        def dfs_iterativa(self, vertice_fonte):
+            visitados.add(vertice_fonte)
+            falta_visitar = [vertice_fonte]
+            
+            while falta_visitar:
+                vertice = falta_visitar.pop()
+                for vizinho in self.listaAdj[vertice-1]:
+                    teste.append(vizinho[0])
+                    if vizinho[0] not in visitados:
+                        visitados.add(vizinho[0])
+                        falta_visitar.append(vizinho[0])
 
+        dfs_iterativa(self, vertice)
+        return teste
+    
 
 '''#g = Grafo(None)
 g = Grafo.leArquivo("grafo_teste");
