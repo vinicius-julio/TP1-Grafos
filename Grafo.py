@@ -3,15 +3,15 @@ class Grafo:
 
     def __init__(self, vertices):
         self.vertices = vertices
-        self.listaAdj = [[] for i in range(self.vertices)] #conteudo das linhas em branco, vertices = numero de linhas
+        self.listaAdj = [[] for i in range(self.vertices+1)] #conteudo das linhas em branco, vertices = numero de linhas
 
     def adicionaAresta(self, u, v, peso):
-        self.listaAdj[u - 1].append([v, peso]) #adiciona v e o peso na linha/vertice u
-        self.listaAdj[v - 1].append([u, peso]) #adiciona u e o peso na linha/vertice v
+        self.listaAdj[u].append([v, peso]) #adiciona v e o peso na linha/vertice u
+        self.listaAdj[v].append([u, peso]) #adiciona u e o peso na linha/vertice v
 
     def imprimeGrafo(self):
-        for i in range(self.vertices):
-            print(f'{i+1}:', end='  ')
+        for i in range(1,self.vertices+1):
+            print(f'{i}:', end='  ')
             for j in self.listaAdj[i]:
                 print(f'{j} -', end='  ')
             print('')
@@ -25,7 +25,7 @@ class Grafo:
         print(f'Vizinhos do vértice: {self.retornaVizinhos(v)}')
         print(f'Grau do vértice: {self.grauVertice(v)}')
         print(f'Lista da busca: {self.dfs(v_b)}')
-        
+                
     def ordemGrafo(self):
         return self.vertices
 
@@ -38,7 +38,7 @@ class Grafo:
 
     def retornaVizinhos(self, u):
         vizinhos = []
-        listaVizinhos = self.listaAdj[u - 1]
+        listaVizinhos = self.listaAdj[u]
         i=0
         while (i<len(listaVizinhos)):
             vizinhos.append(listaVizinhos[i][0])
@@ -67,7 +67,7 @@ class Grafo:
             
             while falta_visitar:
                 vertice = falta_visitar.pop()
-                for vizinho in self.listaAdj[vertice-1]:
+                for vizinho in self.listaAdj[vertice]:
                     teste.append(vizinho[0])
                     if vizinho[0] not in visitados:
                         visitados.add(vizinho[0])
@@ -75,6 +75,60 @@ class Grafo:
 
         dfs_iterativa(self, vertice)
         return teste
+    def DFSUtil(self, temp, v, visited):
+ 
+        #Marcar Vertice atual como visitado
+        visited[v] = True
+ 
+        # armazenar o vestice na lista 
+        temp.append(v)
+ 
+        # Repita para todos os vértices adjacentes
+        # para o vertice v
+        for i in self.listaAdj[v]:
+            print("PROVA: ",i)
+            aux= i[0]
+            print("TESTE: ",aux)
+            if visited[aux] == False:
+ 
+                # atualizar a lista
+                temp = self.DFSUtil(temp, aux, visited)
+        return temp    
+    def connectedComponents(self):
+        visited = []
+        cc = []
+        for i in range(self.vertices+1):
+            visited.append(False)
+        for v in range(self.vertices+1):
+            if visited[v] == False:
+                temp = []
+                cc.append(self.DFSUtil(temp, v, visited))
+        return cc
+    def NumberOfconnectedComponents(self):
+         
+        # marcar todos vertices como n visitados
+        visited = [False for i in range(self.vertices+1)]
+         
+        # armazenar o numero de componentes conectados
+        count = 0
+         
+        for v in range(self.vertices+1):
+            if (visited[v] == False):
+                self.DFSUtil2(v, visited)
+                count += 1
+                 
+        return count
+    def DFSUtil2(self, v, visited):
+ 
+        # marcar o no como visitado
+        visited[v] = True
+ 
+        # recorrer para todos vertices adjacentes ao vertice v
+  
+        for i in self.listaAdj[v]:
+            if (not visited[i[0]]):
+                self.DFSUtil2(i[0], visited)
+ 
     
 
 '''#g = Grafo(None)
@@ -96,9 +150,9 @@ print(f'Grau do vértice: {g.grauVertice(1)}')
 - Retornar os vizinhos de um vértice fornecido - ok
 - Determinar o grau de um vértice fornecido - ok
 - Determinar a sequência de vértices visitados na busca em profundidade e informar
-a(s) aresta(s) de retorno
+a(s) aresta(s) de retorno- falta as arestas
  - Determinar o número de componentes conexas do grafo e os vértices de cada
-componente
+componente-ok
 - Verificar se um vértice é articulação
 - Verificar se uma aresta é ponte 
 
