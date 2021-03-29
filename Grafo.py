@@ -163,7 +163,7 @@ class Grafo:
 
                 if (not visited[node[0]]):
                     stack.append(node[0])
-                    arestas.append(node[0])
+                    arestas.append([s , node[0]])
         while 0 in temp:
             temp.remove(0)
         return temp, arestas
