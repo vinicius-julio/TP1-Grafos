@@ -63,23 +63,6 @@ class Grafo:
                 u, v, peso = line.rstrip('\n').split(' ')
                 g.adicionaAresta(int(u), int(v), int(peso))
         return g
-    def dfs(self, vertice):
-        visitados = set()
-        arestas = []
-        def dfs_iterativa(self, vertice_fonte):
-            visitados.add(vertice_fonte)
-            falta_visitar = [vertice_fonte]
-            
-            while falta_visitar:
-                vertice = falta_visitar.pop()
-                for vizinho in self.listaAdj[vertice]:
-                    if vizinho[0] not in visitados:
-                        visitados.add(vizinho[0])
-                        falta_visitar.append(vizinho[0])
-                        arestas.append(vizinho[0])
-
-        dfs_iterativa(self, vertice)
-        return visitados,arestas
     def connectedComponents(self):
         visited = []
         cc = []
@@ -136,6 +119,35 @@ class Grafo:
                     if (not visited[node[0]]):
                         stack.append(node[0])
         return temp
+    def DFSlista(self, s, visited, temp):  # prints all vertices in DFS manner from a given source.
+        # Initially mark all verices as not visited
+        # Create a stack for DFS
+        stack = []
+        arestas= []
+        # Push the current source node.
+        stack.append(s)
+        while (len(stack)):
+            # Pop a vertex from stack and print it
+            s = stack[-1]
+            stack.pop()
+            # Stack may contain same vertex twice. So
+            # we need to print the popped item only
+            # if it is not visited.
+            if (not visited[s]):
+                temp.append(s)
+                #print(s, end=' ')
+                visited[s] = True
+            # Get all adjacent vertices of the popped vertex s
+            # If a adjacent has not been visited, then push it
+            # to the stack.
+            for node in self.listaAdj[s]:
+                
+                if (not visited[node[0]]):
+                    stack.append(node[0])
+                    arestas.append(node[0])
+        while 0 in temp:
+            temp.remove(0)
+        return temp,arestas
 '''#g = Grafo(None)
 g = Grafo.leArquivo("grafo_teste");
 g.adicionaAresta(1, 2, 5)
