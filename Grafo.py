@@ -9,22 +9,27 @@ class Grafo:
         self.listaAdj[u].append([v, peso]) #adiciona v e o peso na linha/vertice u
         self.listaAdj[v].append([u, peso]) #adiciona u e o peso na linha/vertice v
 
-    def imprimeGrafo(self):
+    def imprimeGrafo(self, arqOut):
         for i in range(1,self.vertices+1):
             print(f'{i}:', end='  ')
+            arqOut.write(f'{i}: ')
             for j in self.listaAdj[i]:
                 print(f'{j} -', end='  ')
+                arqOut.write(f'{j} - ')
             print('')
+            arqOut.write('\n')
         print('')
+        arqOut.write('\n')
 
-    def exibeInformacoes(self):
-        v_b=1
+
+    '''def exibeInformacoes(self, v):
         print(f'Grafo de Ordem: {self.ordemGrafo()}')
         print(f'Grafo de tamanho: {self.tamanhoGrafo()}')
-        v = int(input("\nDigite um Vértice: "))
-        print(f'Vizinhos do vértice: {self.retornaVizinhos(v)}')
-        print(f'Grau do vértice: {self.grauVertice(v)}')
-        print(f'Lista da busca: {self.dfs(v_b)}')
+        print(f'Vizinhos do vértice {v}: {self.retornaVizinhos(v)}')
+        print(f'Grau do vértice {v}: {self.grauVertice(v)}')
+        print(f'Lista da busca: {self.dfs(v)}')
+        print(f'Número de componentes conexas: {self.NumberOfconnectedComponents()}')
+        print(f'Vértices de componentes conexas: {self.connectedComponents()}')'''
                 
     def ordemGrafo(self):
         return self.vertices
@@ -86,9 +91,9 @@ class Grafo:
         # Repita para todos os vértices adjacentes
         # para o vertice v
         for i in self.listaAdj[v]:
-            print("PROVA: ",i)
+            #print("PROVA: ",i)
             aux= i[0]
-            print("TESTE: ",aux)
+            #print("TESTE: ",aux)
             if visited[aux] == False:
  
                 # atualizar a lista
@@ -103,7 +108,7 @@ class Grafo:
             if visited[v] == False:
                 temp = []
                 cc.append(self.DFSUtil(temp, v, visited))
-        return cc
+        return cc[1:]
     def NumberOfconnectedComponents(self):
          
         # marcar todos vertices como n visitados
@@ -117,7 +122,7 @@ class Grafo:
                 self.DFSUtil2(v, visited)
                 count += 1
                  
-        return count
+        return count-1
     def DFSUtil2(self, v, visited):
  
         # marcar o no como visitado
