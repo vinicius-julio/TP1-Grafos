@@ -22,14 +22,14 @@ class Grafo:
         arqOut.write('\n')
 
 
-    def exibeInformacoes(self, v):
+    '''def exibeInformacoes(self, v):
         print(f'Grafo de Ordem: {self.ordemGrafo()}')
         print(f'Grafo de tamanho: {self.tamanhoGrafo()}')
         print(f'Vizinhos do vértice {v}: {self.retornaVizinhos(v)}')
         print(f'Grau do vértice {v}: {self.grauVertice(v)}')
-        print(f'Lista da busca: {self.dfs(v)}')
+        print(f'Lista da busca: {self.DFSlista(v)}')
         print(f'Número de componentes conexas: {self.NumberOfconnectedComponents()}')
-        print(f'Vértices de componentes conexas: {self.connectedComponents()}')
+        print(f'Vértices de componentes conexas: {self.connectedComponents()}')'''
                 
     def ordemGrafo(self):
         return self.vertices
@@ -80,25 +80,6 @@ class Grafo:
 
         dfs_iterativa(self, vertice)
         return teste
-    '''def DFSUtil(self, temp, v, visited):
- 
-        #Marcar Vertice atual como visitado
-        visited[v] = True
- 
-        # armazenar o vestice na lista 
-        temp.append(v)
- 
-        # Repita para todos os vértices adjacentes
-        # para o vertice v
-        for i in self.listaAdj[v]:
-            #print("PROVA: ",i)
-            aux= i[0]
-            #print("TESTE: ",aux)
-            if visited[aux] == False:
- 
-                # atualizar a lista
-                temp = self.DFSUtil(temp, aux, visited)
-        return temp'''
     def connectedComponents(self):
         visited = []
         cc = []
@@ -125,16 +106,6 @@ class Grafo:
                 count += 1
 
         return count-1
-    '''def DFSUtil2(self, v, visited):
- 
-        # marcar o no como visitado
-        visited[v] = True
- 
-        # recorrer para todos vertices adjacentes ao vertice v
-  
-        for i in self.listaAdj[v]:
-            if (not visited[i[0]]):
-                self.DFSUtil2(i[0], visited)'''
 
     def _DFS(self, s, visited, temp):  # prints all vertices in DFS manner from a given source.
                     # Initially mark all verices as not visited
@@ -166,6 +137,36 @@ class Grafo:
                         stack.append(node[0])
                         #print(f'Arestas de Retorno: {s} - {node[0]}')
         return temp
+
+    def DFSlista(self, s, visited, temp):  # prints all vertices in DFS manner from a given source.
+        # Initially mark all verices as not visited
+        # Create a stack for DFS
+        stack = []
+        arestas = []
+        # Push the current source node.
+        stack.append(s)
+        while (len(stack)):
+            # Pop a vertex from stack and print it
+            s = stack[-1]
+            stack.pop()
+            # Stack may contain same vertex twice. So
+            # we need to print the popped item only
+            # if it is not visited.
+            if (not visited[s]):
+                temp.append(s)
+                # print(s, end=' ')
+                visited[s] = True
+            # Get all adjacent vertices of the popped vertex s
+            # If a adjacent has not been visited, then push it
+            # to the stack.
+            for node in self.listaAdj[s]:
+
+                if (not visited[node[0]]):
+                    stack.append(node[0])
+                    arestas.append(node[0])
+        while 0 in temp:
+            temp.remove(0)
+        return temp, arestas
 
     def ehArticulacao(self, vertice):#Remove o vertice selecionado, se
                                     #Numero de componentes conexas aumenta, é articulação
