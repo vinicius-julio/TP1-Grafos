@@ -65,7 +65,7 @@ class Grafo:
         return g
     def dfs(self, vertice):
         visitados = set()
-        teste=[]
+        arestas = []
         def dfs_iterativa(self, vertice_fonte):
             visitados.add(vertice_fonte)
             falta_visitar = [vertice_fonte]
@@ -73,32 +73,13 @@ class Grafo:
             while falta_visitar:
                 vertice = falta_visitar.pop()
                 for vizinho in self.listaAdj[vertice]:
-                    teste.append(vizinho[0])
                     if vizinho[0] not in visitados:
                         visitados.add(vizinho[0])
                         falta_visitar.append(vizinho[0])
+                        arestas.append(vizinho[0])
 
         dfs_iterativa(self, vertice)
-        return teste
-    '''def DFSUtil(self, temp, v, visited):
- 
-        #Marcar Vertice atual como visitado
-        visited[v] = True
- 
-        # armazenar o vestice na lista 
-        temp.append(v)
- 
-        # Repita para todos os vértices adjacentes
-        # para o vertice v
-        for i in self.listaAdj[v]:
-            #print("PROVA: ",i)
-            aux= i[0]
-            #print("TESTE: ",aux)
-            if visited[aux] == False:
- 
-                # atualizar a lista
-                temp = self.DFSUtil(temp, aux, visited)
-        return temp'''
+        return visitados,arestas
     def connectedComponents(self):
         visited = []
         cc = []
@@ -125,16 +106,6 @@ class Grafo:
                 count += 1
 
         return count-1
-    '''def DFSUtil2(self, v, visited):
- 
-        # marcar o no como visitado
-        visited[v] = True
- 
-        # recorrer para todos vertices adjacentes ao vertice v
-  
-        for i in self.listaAdj[v]:
-            if (not visited[i[0]]):
-                self.DFSUtil2(i[0], visited)'''
 
     def _DFS(self, s, visited, temp):  # prints all vertices in DFS manner from a given source.
                     # Initially mark all verices as not visited
@@ -189,14 +160,11 @@ a(s) aresta(s) de retorno- falta as arestas
 componente-ok
 - Verificar se um vértice é articulação
 - Verificar se uma aresta é ponte 
-
 Para o teste da biblioteca faça um programa principal que leia o arquivo
 texto e salve em um arquivo texto as diversas informações sobre o grafo lido.
-
 O formato do grafo no arquivo será o seguinte: a primeira linha informa o número
 de vértices do grafo, cada linha subsequente informa as arestas com seu respectivo peso
 (ver o exemplo anterior).
-
 4
 1 2 5
 1 3 7
