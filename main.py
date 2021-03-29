@@ -14,8 +14,11 @@ while (opcao!=0):
         nomeOut = input("Digite o nome do arquivo de saída: ")
         with open(nomeOut, "w") as arqOut:
             g.imprimeGrafo(arqOut)
+            
             arqOut.write("\n\n-----------------------------------------------------------------------\n\n")
             vertice = int(input("Selecione Vertice:" ))
+            b=[0 for i in range(g.vertices+1)]
+            a=[0 for i in range(g.vertices+1)]
             #g.exibeInformacoes(vertice)
             arqOut.write(f'Grafo de Ordem: {g.ordemGrafo()}\n')
             arqOut.write(f'Grafo de tamanho: {g.tamanhoGrafo()}\n')
@@ -23,9 +26,10 @@ while (opcao!=0):
             arqOut.write(f'Grau do vértice {vertice}: {g.grauVertice(vertice)}\n')
             arqOut.write(f'Número de componentes conexas: {g.NumberOfconnectedComponents()}\n\n')
             arqOut.write("-----------------------------------------------------------------------\n\n")
-            arqOut.write(f'Lista da busca: \n\n{g.dfs(vertice)[0]}\n\n\n\n')
+            
+            arqOut.write(f'Arestas de retorno: \n\n{g.DFSlista(vertice,b,a)[1]}\n\n\n\n')
             arqOut.write("-----------------------------------------------------------------------\n\n")
-            arqOut.write(f'Arestas de retorno: \n\n{g.dfs(vertice)[1]}\n\n\n\n')
+            arqOut.write(f'Lista da busca: \n\n{g.DFSlista(vertice,b,a)[0]}\n\n\n\n')
             arqOut.write("-----------------------------------------------------------------------\n\n")
             arqOut.write(f'Vértices de componentes conexas: \n\n{g.connectedComponents()}\n\n')
             print("Salvo como: " + nomeOut)
