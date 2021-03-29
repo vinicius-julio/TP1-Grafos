@@ -80,7 +80,7 @@ class Grafo:
 
         dfs_iterativa(self, vertice)
         return teste
-    def DFSUtil(self, temp, v, visited):
+    '''def DFSUtil(self, temp, v, visited):
  
         #Marcar Vertice atual como visitado
         visited[v] = True
@@ -98,7 +98,7 @@ class Grafo:
  
                 # atualizar a lista
                 temp = self.DFSUtil(temp, aux, visited)
-        return temp    
+        return temp'''
     def connectedComponents(self):
         visited = []
         cc = []
@@ -107,7 +107,8 @@ class Grafo:
         for v in range(self.vertices+1):
             if visited[v] == False:
                 temp = []
-                cc.append(self.DFSUtil(temp, v, visited))
+                #cc.append(self.DFSUtil(temp, v, visited))
+                cc.append(self._DFS(v, visited, temp))
         return cc[1:]
     def NumberOfconnectedComponents(self):
          
@@ -116,14 +117,15 @@ class Grafo:
          
         # armazenar o numero de componentes conectados
         count = 0
-         
+        temp = []
         for v in range(self.vertices+1):
             if (visited[v] == False):
-                self.DFSUtil2(v, visited)
+                #self.DFSUtil2(v, visited)
+                self._DFS(v, visited, temp)
                 count += 1
-                 
+
         return count-1
-    def DFSUtil2(self, v, visited):
+    '''def DFSUtil2(self, v, visited):
  
         # marcar o no como visitado
         visited[v] = True
@@ -132,10 +134,37 @@ class Grafo:
   
         for i in self.listaAdj[v]:
             if (not visited[i[0]]):
-                self.DFSUtil2(i[0], visited)
- 
-    
+                self.DFSUtil2(i[0], visited)'''
 
+    def _DFS(self, s, visited, temp):  # prints all vertices in DFS manner from a given source.
+                    # Initially mark all verices as not visited
+
+
+        # Create a stack for DFS
+        stack = []
+
+            # Push the current source node.
+        stack.append(s)
+
+        while (len(stack)):
+            # Pop a vertex from stack and print it
+            s = stack[-1]
+            stack.pop()
+            # Stack may contain same vertex twice. So
+            # we need to print the popped item only
+            # if it is not visited.
+            if (not visited[s]):
+                temp.append(s)
+                #print(s, end=' ')
+                visited[s] = True
+
+            # Get all adjacent vertices of the popped vertex s
+            # If a adjacent has not been visited, then push it
+            # to the stack.
+            for node in self.listaAdj[s]:
+                    if (not visited[node[0]]):
+                        stack.append(node[0])
+        return temp
 '''#g = Grafo(None)
 g = Grafo.leArquivo("grafo_teste");
 g.adicionaAresta(1, 2, 5)
